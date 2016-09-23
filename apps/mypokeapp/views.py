@@ -10,7 +10,6 @@ def checkloggedin(request):
 def index(request):
     if not checkloggedin(request):
         return redirect('/')
-    print request.session['userid']
     userid = request.session['userid']
     context = {}
     context['allusers'] = Users.objects.all()

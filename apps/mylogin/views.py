@@ -22,13 +22,11 @@ def success(request):
 def displayall(request):
     context = {}
     allusers = Users.objects.all()
-    print allusers
     context['allusers'] = allusers
     return render(request, 'mylogin/displayall.html', context)
 
 def register(request):
     if request.method == 'POST':
-        print 'Posted'
         res = Users.objects.register(request.POST)
         if res['success']:
             user = Users.objects.get(email=request.POST['email'])
@@ -72,9 +70,7 @@ def logout(request):
     return redirect('/')
     
 def delete(request, deleteid):
-    print deleteid
     user = Users.objects.get(id=deleteid)
-    print user
     user.delete()
     return redirect('/displayall')
     
