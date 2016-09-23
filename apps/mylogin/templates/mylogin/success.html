@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Success</title>
+    <meta http-equiv="refresh" content="5;url=/" />
+</head>
+<body>
+    {% if request.session.first_name %}
+    <h1>SUCCESS! Welcome, {{request.session.first_name}}!</h1>
+    {% endif %}
+    {% if messages %}
+        {% for message in messages %}
+            <p style="color:green;">{{message}}</p>
+        {% endfor %}
+    {% endif %}
+    <h4>Redirecting in 5 seconds...</h4>
+</body>
+</html>

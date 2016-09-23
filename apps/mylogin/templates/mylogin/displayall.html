@@ -1,0 +1,39 @@
+<!doctype html>
+<html>
+    
+    <head>
+        <title>List of users</title>
+    </head>
+    
+    <body>
+        <table>
+            <tr>
+                <th>User ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Email</th>
+                <th>dob</th>
+                <th>action</th>
+            </tr>
+            {% if allusers %}
+                {% for user in allusers %}
+                <tr>
+                    <td>{{user.id}}</td>
+                    <td>{{user.name}}</td>
+                    <td>{{user.alias}}</td>
+                    <td>{{user.email}}</td>
+                    <td>{{user.dob}}</td>
+                    <td><a href="delete/{{user.id}}">delete</a></td>
+                </tr>
+                {% endfor %}
+            {% endif %}
+        </table>
+        <h3>User Logged In Data:</h3>
+        <P>id #: {{request.session.userid}}</P>
+        <p>first name: {{request.session.name}}</p>
+        <p>last name: {{request.session.alias}}</p>
+        <p>email: {{request.session.email}} </p>
+        <a href="/logout">Logout</a>
+    </body>
+
+</html>

@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Pokes</title>
+    <style>
+        div.yougotpoked {
+            display: inline-block;
+            vertical-align: top;
+        }
+        div.pokercounter {
+            display: inline-block;
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+    <a href="/pokes">Home</a> |  
+        {% if request.session.alias %}
+            {{request.session.alias}} is logged in | 
+        {% endif %}
+        <a href="/logout">Logout</a>
+    </div>
+    <div>
+        <h2>Welcome, {{request.session.name}}!</h2>
+        <h3>{{count}} people poked you!</h3>
+    </div>
+    <div class="yougotpoked">
+        <table>
+        {% for poker in pokers %}
+            <tr>
+                <td>{{poker.name}} </td> 
+                <td> </td>
+                <td> poked you </td>
+            </tr>
+        {% endfor %}
+        </table>
+    </div>
+    <div class="pokercounter">
+        <table>
+            {% for count in pokerscount %}
+                <tr>
+                    <td> {{count}} times!</td>
+                </tr>
+               
+            {% endfor %}
+        </table>
+        
+    </div>
+    <div class="peopletopoke">
+        <h3>People you may want to poke:</h3>
+        <table>
+            <tr>
+                <td>Name</td>
+                <td>Alias</td>
+                <td>Email</td>
+                <td>Poke History</td>
+                <td>Action</td>
+            </tr>
+            {% for person in allusers %}
+                <tr>
+                    <td>{{person.id}}</td>
+                    <td>{{person.alias}}</td>
+                    <td>{{person.email}}</td>
+                    <td>{{person.poke_target.all.count}}</td>
+                    <td><form action='/pokes/makepoke' method='POST'>
+                        {% csrf_token %}
+                        <input type="hidden" name="poketo" value="{{person.id}}">
+                        <input type="hidden" name="pokefrom" value="{{request.session.userid}}">
+                        <button type="submit">Poke!</button>
+                        </form></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
