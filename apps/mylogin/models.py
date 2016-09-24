@@ -13,8 +13,10 @@ class UserManager(models.Manager):
         response = {}
         response['errors'] = []
         response['success'] = []
-        dob = str(postdata['dob'])
-        print dob
+        print 'test'
+        print postdata['dob']
+        print 'test'
+        dob = postdata['dob']
         if not postdata['email']:
             response['errors'].append('Email is blank')
         if not EMAIL_REGEX.match(postdata['email']):
@@ -36,7 +38,7 @@ class UserManager(models.Manager):
             password = password.encode()
             hashedpw = bcrypt.hashpw(password, bcrypt.gensalt())
             try: 
-                newuser = Users.objects.create(name = postdata['name'], alias = postdata['alias'], email = postdata['email'],password = hashedpw)
+                newuser = Users.objects.create(name = postdata['name'], alias = postdata['alias'], email = postdata['email'],password = hashedpw, dob = dob)
                 response['success'].append('Registered User')
                 print 'User Created'
                 return response
@@ -79,7 +81,7 @@ class Users(models.Model):
     name = models.CharField(max_length=255)
     alias = models.CharField(max_length=255)
     email = models.CharField(max_length=50, unique=True)
-    dob = models.DateField(default = datetime.datetime.now().date())
+    dob = models.DateField()
     password = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
