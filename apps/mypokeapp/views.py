@@ -12,7 +12,7 @@ def index(request):
         return redirect('/')
     userid = request.session['userid']
     context = {}
-    context['allusers'] = Users.objects.all()
+    context['allusers'] = Users.objects.allusersminusyou(userid)
     context['count'] = Poke.objects.pokefromcount(userid)
     context['pokers'] = Poke.objects.pokedfrom(userid)
     context['pokerscount'] = Poke.objects.pokerscount(userid)

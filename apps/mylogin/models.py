@@ -70,6 +70,11 @@ class UserManager(models.Manager):
             response['errors'].append('passwords do not match')
             return response
         
+    def allusersminusyou(self, userid):
+        you = Users.objects.get(id=userid)
+        allusers = Users.objects.all().exclude(id=userid)
+        return allusers
+        
 class Users(models.Model):
     name = models.CharField(max_length=255)
     alias = models.CharField(max_length=255)

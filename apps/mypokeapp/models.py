@@ -13,12 +13,12 @@ class PokeManager(models.Manager):
     
     def pokefromcount(self, userid):
         you = Users.objects.get(id=userid)
-        count = Poke.objects.filter(FK_poke_to = you).values('FK_poke_from').distinct().count()
+        count = Poke.objects.filter(FK_poke_to = you).exclude(FK_poke_from = you).values('FK_poke_from').distinct().count()
         return count
     
     def pokedfrom(self, userid):
-        you = Users.objects.get(id=userid)
-        pokersid = Users.objects.filter(poke_user__FK_poke_to = you).values('id').distinct()
+        you = Users.objects.get(id = userid)
+        pokersid = Users.objects.filter(poke_user__FK_poke_to = you).exclude(id=userid).values('id').distinct()
         pokersid = list(pokersid)
         allpokers = []
         for poker in pokersid:
@@ -26,13 +26,13 @@ class PokeManager(models.Manager):
         return allpokers
     
     def pokerscount(self, userid):
-        you = Users.objects.get(id=userid)
-        pokersid = Users.objects.filter(poke_user__FK_poke_to = you).values('id').distinct()
+        you = Users.objects.get(id = userid)
+        pokersid = Users.objects.filter(poke_user__FK_poke_to = you).exclude(id=userid).values('id').distinct()
         pokersid = list(pokersid)
         allpokerscount = []
         for poker in pokersid:
             frompoker = Users.objects.get(id=poker['id'])
-            allpokerscount.append(Poke.objects.filter(FK_poke_from = frompoker).filter(FK_poke_to = you).count())
+            allpokerscount.append(Poke.objects.filter(FK_poke_from = frompoker).filter(FK_poke_to = you).exclude(FK_poke_from=you).count())
         return allpokerscount
 
 class Poke(models.Model):
